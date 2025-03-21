@@ -34,11 +34,11 @@ import 'package:timezone/data/latest.dart';
 
 void main() async {
   ImmichWidgetsBinding();
+  HttpOverrides.global = HttpSSLCertOverride();
   final db = await Bootstrap.initIsar();
   await Bootstrap.initDomain(db);
   await initApp();
   await migrateDatabaseIfNeeded(db);
-  HttpOverrides.global = HttpSSLCertOverride();
 
   runApp(
     ProviderScope(

@@ -28,6 +28,7 @@ import 'package:immich_mobile/repositories/file_media.repository.dart';
 import 'package:immich_mobile/services/album.service.dart';
 import 'package:immich_mobile/services/api.service.dart';
 import 'package:immich_mobile/services/app_settings.service.dart';
+import 'package:immich_mobile/utils/http_ssl_cert_override.dart';
 import 'package:logging/logging.dart';
 import 'package:openapi/api.dart';
 import 'package:path/path.dart' as p;
@@ -47,7 +48,10 @@ final backupServiceProvider = Provider(
 );
 
 class BackupService {
-  final httpClient = http.Client();
+  final httpClient = () {
+    HttpOverrides.global = HttpSSLCertOverride();
+    return http.Client();
+  }();
   final ApiService _apiService;
   final Logger _log = Logger("BackupService");
   final AppSettingsService _appSetting;
